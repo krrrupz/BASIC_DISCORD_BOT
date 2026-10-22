@@ -1,21 +1,14 @@
-<div align="center">
+ <div align="center">
 
-# 🐍 Discord.py Beginner Examples
+# 🤖 Discord.py Moderation & Ticket Bot
 
-### A small collection of slash-command examples to help beginners understand how a Discord bot works.
+### A Discord bot with slash commands, moderation tools, staff roles, private tickets, and voice-channel controls.
 
 <p>
   <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
   <img src="https://img.shields.io/badge/Library-discord.py-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="discord.py">
-  <img src="https://img.shields.io/badge/Level-Beginner-2EA44F?style=for-the-badge" alt="Beginner level">
-  <img src="https://img.shields.io/badge/Commands-Slash%20Commands-8A2BE2?style=for-the-badge" alt="Slash commands">
-</p>
-
-<p>
-  <a href="#-about"><img src="https://img.shields.io/badge/About-5865F2?style=for-the-badge" alt="About"></a>
-  <a href="#-examples-included"><img src="https://img.shields.io/badge/Examples-2EA44F?style=for-the-badge" alt="Examples"></a>
-  <a href="#-setup"><img src="https://img.shields.io/badge/Setup-orange?style=for-the-badge" alt="Setup"></a>
-  <a href="#-important-notes"><img src="https://img.shields.io/badge/Notes-red?style=for-the-badge" alt="Notes"></a>
+  <img src="https://img.shields.io/badge/Commands-Slash%20Commands-8A2BE2?style=for-the-badge" alt="Slash Commands">
+  <img src="https://img.shields.io/badge/Features-Moderation%20%7C%20Tickets-2EA44F?style=for-the-badge" alt="Features">
 </p>
 
 </div>
@@ -24,116 +17,174 @@
 
 ## 📌 About
 
-This repository contains a simple `discord.py` script demonstrating several common bot features: basic slash commands, role management, and reading a member's recent messages in the current channel.
+This project is a `discord.py` bot featuring basic moderation, utility commands, staff-role configuration, a button-based ticket system, and voice-channel locking.
 
-> **Learning project:** This code is intended to give beginners an idea of how things work in `discord.py`. It is an introductory example, not a complete or production-ready moderation bot. Read the code, experiment with it in a test server, and check the official documentation as you learn.
+Administrators can configure staff roles through a slash command. Members can create private support tickets, while authorized staff can claim, lock, unlock, and generate HTML transcripts for tickets.
 
-## ✨ Examples Included
+## ✨ Features
 
-| Command | What it demonstrates |
+- **Slash commands:** Commands for bot latency, server information, member information, and avatars.
+- **Moderation:** Kick, ban, timeout, remove timeouts, purge messages, set slowmode, and send warning DMs.
+- **Staff management:** Configure up to three staff roles using `/setup`.
+- **Ticket system:** Create private tickets using an interactive button panel.
+- **Ticket controls:** Claim tickets, lock or unlock them, generate HTML transcripts, and close tickets.
+- **Voice controls:** Lock and unlock the voice channel the staff member is currently connected to.
+- **Permission checks:** Restrict moderation and ticket-management operations according to Discord permissions and configured staff roles.
+- **Embeds:** Display organized information and help menus.
+
+## 📋 Commands
+
+### General Commands
+
+| Command | Description |
 |---|---|
-| `/hello` | Sends an ephemeral greeting to the person who invoked the command. |
-| `/say arg` | Accepts a string argument and repeats it in a response. |
-| `/addrole member role` | Checks whether the invoking user has Manage Roles permission, then attempts to add a role. |
-| `/remove_role member role` | Demonstrates removing a role and handling errors. |
-| `/messagehistory member limit` | Checks Read Message History permission, then searches recent messages in the current channel for a selected member. |
+| `/help` | Display the bot's command list. |
+| `/ping` | Display the bot's Gateway latency. |
+| `/serverinfo` | Show server information. |
+| `/userinfo` | Show information about a member. |
+| `/avatar` | Display a member's avatar. |
 
-### 🧩 Other concepts in the script
+### 🛡️ Moderation Commands
 
-- **Slash-command registration:** `bot.tree.sync()` syncs application commands when the bot starts.
-- **Command parameters:** Uses Discord types such as `discord.Member` and `discord.Role` to provide Discord-aware options.
-- **Permissions:** Shows a basic permission check before role assignment and message-history access.
-- **Error handling:** Demonstrates `discord.Forbidden` handling and general exception reporting.
-- **Message timestamps:** Formats message creation times using `datetime.strftime()`.
-- **Asynchronous history iteration:** Uses `async for` to read messages from channel history.
+| Command | Description | Permission |
+|---|---|---|
+| `/kick` | Kick a member from the server. | Kick Members |
+| `/ban` | Ban a member from the server. | Ban Members |
+| `/timeout` | Timeout a member for a specified duration. | Moderate Members |
+| `/untimeout` | Remove a member's timeout. | Moderate Members |
+| `/purge` | Delete between 1 and 100 recent messages. | Manage Messages |
+| `/slowmode` | Set the channel's slowmode delay. | Manage Channels |
+| `/clearwarn` | Send a warning to a member via DM. | Manage Messages |
 
-## 🛠️ Setup
+### ⚙️ Staff Setup Commands
+
+| Command | Description |
+|---|---|
+| `/setup` | Configure up to three staff roles. |
+| `/staffroles` | Display the configured staff roles. |
+| `/ticketpanel` | Post the ticket creation panel. |
+
+The `/setup` command requires administrator permission. Configured staff roles authorize staff to claim and manage tickets and use the voice-lock commands.
+
+### 🎫 Ticket System
+
+The `/ticketpanel` command posts a panel containing a **Create Ticket** button.
+
+When a member creates a ticket, the bot creates a private text channel and grants access to the ticket owner and configured staff roles.
+
+#### Ticket Buttons
+
+| Button | Description |
+|---|---|
+| Create Ticket | Create a private support channel. |
+| Claim Ticket | Allow a staff member to claim the ticket. |
+| Lock Ticket | Prevent the ticket owner from sending messages. |
+| Unlock Ticket | Restore the ticket owner's ability to send messages. |
+| Transcript | Generate and privately deliver an HTML transcript. |
+
+#### Additional Ticket Command
+
+| Command | Description |
+|---|---|
+| `/close` | Delete the current ticket after a short delay. |
+
+### 🔊 Voice Commands
+
+| Command | Description |
+|---|---|
+| `/lockvc` | Prevent members from connecting to your current voice channel. |
+| `/unlockvc` | Restore the default connection permission for your current voice channel. |
+
+These commands require a configured staff role. The bot also needs the Manage Channels permission.
+
+## 🛠️ Setup and Installation
 
 ### 1. Install Python
 
-Install a supported Python version, then check that Python and pip are available:
-
 ```bash
-python --version
-python -m pip --version
+python3 --version
 ```
 
 ### 2. Install discord.py
 
 ```bash
+python3 -m pip install -U discord.py
+```
+
+For Linux systems that block system-wide pip installations, use a virtual environment:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
 python -m pip install -U discord.py
 ```
 
-### 3. Create a Discord application and bot
+### 3. Create a Discord Bot
 
 1. Open the [Discord Developer Portal](https://discord.com/developers/applications).
 2. Create an application and add a bot.
 3. Copy the bot token.
-4. Invite the bot to a test server with the required permissions and application-command support.
+4. Open **OAuth2 → URL Generator**.
+5. Select the `bot` and `applications.commands` scopes.
+6. Grant the required permissions and invite the bot to your server.
 
-### 4. Add your token
+### 4. Enable Intents
 
-Replace the placeholder in the script:
+Under **Bot → Privileged Gateway Intents**, enable:
+
+- **Server Members Intent**
+- **Message Content Intent**
+
+### 5. Configure the Token
+
+At the bottom of your Python file, replace the placeholder:
 
 ```python
-token = "add your token here"
+bot.run("YOUR_BOT_TOKEN")
 ```
 
-Make sure the bottom of your Python file starts the bot, for example:
+Never publish your real bot token in a public repository. Reset it immediately if it is exposed.
 
-```python
-bot.run(token)
-```
+### 6. Run the Bot
 
-**Security tip:** Never publish your real bot token in a public repository. If it is exposed, reset it in the Developer Portal. For projects beyond a quick local example, load it from an environment variable instead.
-
-### 5. Run the bot
-
-Save the script as `bot.py`, then run:
+Save the script as `bot.py` and execute:
 
 ```bash
-python bot.py
+python3 bot.py
 ```
 
-After the bot starts and the slash commands sync, try the commands in your test server. Command registration can take a little time to appear.
+Wait for the bot to connect and synchronize its slash commands.
 
-## 🔐 Permissions and Discord settings
+## 🚀 First-Time Configuration
 
-Depending on the commands you use, the bot needs suitable server and channel permissions:
+1. Start the bot and ensure it is online.
+2. Run `/setup` and select the staff roles.
+3. Run `/ticketpanel` in the channel where members should open tickets.
+4. Test ticket creation with a regular member account.
+5. Test claiming, locking, unlocking, transcript generation, and closing.
+6. Test moderation and voice commands with the appropriate permissions.
 
-- **Manage Roles** to add or remove roles.
-- **View Channels**, **Read Message History**, and access to the relevant channel to inspect message history.
-- The bot's highest role must be above any role it is expected to assign or remove.
-- Enable the relevant bot intents in the Developer Portal if your wider project needs them. This example initializes `discord.Intents.all()`, which requests all intents; only enable privileged intents that you actually need.
+## 🔐 Required Permissions
 
-The invoking user's permissions and the bot's own permissions are different. Both may need to be checked for a reliable implementation.
+Depending on the features being used, the bot needs:
 
-## ⚠️ Important Notes
+- View Channels
+- Send Messages
+- Embed Links
+- Attach Files
+- Read Message History
+- Manage Channels
+- Manage Messages
+- Kick Members
+- Ban Members
+- Moderate Members
 
-This is a beginner example, so there are some limitations worth understanding:
+The bot's highest role must be above any member or role it needs to moderate or assign.
 
-- The `/remove_role` command uses `@commands.has_permissions` on an application command. Prefix-command checks do not automatically behave like application-command permission checks in every context; for slash commands, use the appropriate `app_commands` checks or check permissions inside the function.
-- The `/messagehistory` command searches only the **current channel**, not every channel in the server.
-- The `limit` parameter should be constrained to a sensible positive range. Very large values may make the command slow or impractical.
-- Discord limits interaction response lengths. Returning `output[:1900]` helps keep the response under the usual message limit, but it can cut off a record mid-line and does not split long histories into multiple messages.
-- Message content may contain Markdown or backticks, which can interfere with the code-block formatting used by the history command.
-- The script imports `json` but does not currently use it.
-- Error handling and permission checks are intentionally simple and should be improved before using a bot in a public server.
+## 📚 Resources
 
-## 🧠 What Beginners Can Learn
-
-1. How to define application commands with `@bot.tree.command`.
-2. How to receive and respond to a `discord.Interaction`.
-3. How typed parameters can represent members and roles.
-4. How to perform basic permission checks.
-5. How to use `await` for asynchronous Discord operations.
-6. How to iterate through channel history and format timestamps.
-7. Why permissions, input validation, and error handling matter.
-
-## 📚 Useful Resources
-
-- [discord.py documentation](https://discordpy.readthedocs.io/en/stable/)
-- [discord.py API reference](https://discordpy.readthedocs.io/en/stable/api.html)
+- [discord.py Documentation](https://discordpy.readthedocs.io/en/stable/)
+- [discord.py API Reference](https://discordpy.readthedocs.io/en/stable/api.html)
 - [Discord Developer Portal](https://discord.com/developers/applications)
 - [Discord Developer Documentation](https://discord.com/developers/docs)
 
@@ -141,8 +192,8 @@ This is a beginner example, so there are some limitations worth understanding:
 
 <div align="center">
 
-**Made for learning and experimentation.**
+**Made for moderation, community management, and support.**
 
-⭐ Try the examples in a private test server and build on them as you learn!
+⭐ Test in a private server before deploying to a larger community.
 
 </div>
