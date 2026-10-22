@@ -54,7 +54,7 @@ Administrators can configure staff roles through a slash command. Members can cr
 | `/untimeout` | Remove a member's timeout. | Moderate Members |
 | `/purge` | Delete between 1 and 100 recent messages. | Manage Messages |
 | `/slowmode` | Set the channel's slowmode delay. | Manage Channels |
-| `/clearwarn` | Send a warning to a member via DM. | Manage Messages |
+| `/warn` | Send a warning to a member via DM. | Manage Messages |
 
 ### ⚙️ Staff Setup Commands
 
